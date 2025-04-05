@@ -1,27 +1,22 @@
-const form = document.getElementById("chat-form");
-const input = document.getElementById("user-input");
-const log = document.getElementById("chat-log");
+const form = document.getElementById("чат-форма");
+const input = document.getElementById("введення");
+const journal = document.getElementById("чат-журнал");
 
-form.onsubmit = async (e) => {
+form.addEventListener("submit", async (e) => {
   e.preventDefault();
-  const userMessage = input.value.trim();
-  if (!userMessage) return;
-  log.innerText += "Ти: " + userMessage + "\n";
+  const message = input.value.trim();
+  if (!message) return;
+
+  addMessage("Ти", message);
   input.value = "";
 
-  const response = await fetch("https://api.openai.com/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer ВСТАВ_СЮДИ_СВІЙ_API_КЛЮЧ"
-    },
-    body: JSON.stringify({
-      model: "gpt-3.5-turbo",
-      messages: [{ role: "user", content: userMessage }]
-    })
-  });
+  let response = "Ммм... цікаво. Розкажи ще!";
+  addMessage("Сільвія", response);
+});
 
-  const data = await response.json();
-  const reply = data.choices?.[0]?.message?.content || "Помилка.";
-  log.innerText += "Сильвія: " + reply + "\n";
-};
+function addMessage(sender, text) {
+  const messageEl = document.createElement("p");
+  messageEl.innerHTML = `<strong>${sender}:</strong> ${text}`;
+  journal.appendChild(messageEl);
+  journal.scrollTop = journal.scrollHeight;
+}
