@@ -10,12 +10,14 @@ form.addEventListener("submit", (e) => {
   addMessage("Ти", message);
   input.value = "";
 
-  // Простий бот-відповідь
-  let response = "Цікаво! Розкажи ще.";
+  // Відповідь Сильвії
+  let response = "Ммм... цікаво. Розкажи ще!";
   if (message.toLowerCase().includes("привіт")) {
     response = "Привіт, Андрійку!";
   } else if (message.toLowerCase().includes("як справи")) {
-    response = "У мене все добре. А в тебе?";
+    response = "У мене все добре. А ти як?";
+  } else if (message.toLowerCase().includes("ти хто")) {
+    response = "Я Сильвія. Я тут, щоб з тобою говорити.";
   }
 
   setTimeout(() => addMessage("Сильвія", response), 500);
@@ -23,4 +25,7 @@ form.addEventListener("submit", (e) => {
 
 function addMessage(author, text) {
   const messageElement = document.createElement("p");
-  messageElement.innerHTML
+  messageElement.innerHTML = `<strong>${author}:</strong> ${text}`;
+  journal.appendChild(messageElement);
+  journal.scrollTop = journal.scrollHeight;
+}
